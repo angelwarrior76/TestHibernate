@@ -3,12 +3,15 @@ package com.homework.hibernate.test.dao;
 import com.homework.hibernate.test.model.Auto;
 import com.homework.hibernate.test.model.User;
 
+import com.homework.hibernate.test.utils.HibernateEntityManager;
 import com.homework.hibernate.test.utils.HibernateSessionFactory;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import javax.persistence.EntityManager;
 
 public class UserDao {
 
@@ -17,11 +20,11 @@ public class UserDao {
     }
 
     public void save(User user) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(user);
-        tx1.commit();
-        session.close();
+        EntityManager manager = HibernateEntityManager.getEntityManager();
+        manager.getTransaction().begin();
+        manager.persist(user);
+        manager.getTransaction().commit();
+        manager.close();
     }
 
     public void update(User user) {
